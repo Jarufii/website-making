@@ -10,7 +10,7 @@ function login() {
             if (username.startsWith('admin')) {
                 window.location.href = 'admin-home.html';
             } else {
-                window.location.href = 'index.html?username=' + encodeURIComponent(username);
+                window.location.href = 'index6.html?username=' + encodeURIComponent(username);
             }
             return false; 
         } else {
