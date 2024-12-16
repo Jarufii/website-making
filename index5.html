@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reservation Form</title>
+  <link rel="stylesheet" href="stylessheet4.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h1><a href="index.html">Forest's Cafe</a></h1>
+            </div>
+            <ul class="nav-links">
+              <li><a href="index3.html">About</a></li>
+              <li><a href="index2.html">Menu</a></li>
+              <li><a href="index4.html">Contact</a></li>
+              <li><a href="index5.html">Reservation</a></li>
+              <li><a href="index70.html">Our Gallery</a></li>
+          </ul>
+        </nav>
+    </header>
+
+  <div class="container">
+    <h2>Make a Reservation</h2>
+    <form id="reservationForm">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" placeholder="Your name" required>
+
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" placeholder="Your email" required>
+
+      <label for="date">Reservation Date</label>
+      <input type="date" id="date" name="date" required>
+
+      <label for="time">Reservation Time</label>
+      <input type="time" id="time" name="time" required>
+
+      <label for="guests">Number of Guests</label>
+      <input type="number" id="guests" name="guests" min="1" max="20" required>
+
+      <label for="message">Special Requests</label>
+      <textarea id="message" name="message" rows="4" placeholder="Any special requests?"></textarea>
+
+      <button type="button" onclick="submitReservation()">Submit Reservation</button>
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    emailjs.init('P5hBlDZOWjJUAZlp_'); 
+
+    function submitReservation() {
+      const form = document.getElementById('reservationForm');
+      const formData = new FormData(form);
+
+      if (!formData.get('name') || !formData.get('email') || !formData.get('date') || !formData.get('time') || !formData.get('guests')) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+
+      const email = formData.get('email');
+      if (!email.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)) {
+        alert('Please enter a valid email address.');
+        return;
+      }
+
+      const serviceID = 'service_l79c1qe'; 
+      const templateID = 'template_ciiocio';
+
+      emailjs.send(serviceID, templateID, {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        date: formData.get('date'),
+        time: formData.get('time'),
+        guests: formData.get('guests'),
+        message: formData.get('message'),
+      })
+      .then(() => {
+        alert('Reservation successfully submitted!');
+        form.reset();
+      })
+      .catch((error) => {
+        alert('Failed to submit reservation. Please try again later.');
+        console.error('Error:', error);
+      });
+    }
+  </script>
+
+<footer>
+    <p>&copy; 2024 Forest's Cafe | All Rights Reserved</p>
+</footer>
+
+</body>
+</html>
